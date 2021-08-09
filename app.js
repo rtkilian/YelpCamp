@@ -7,6 +7,7 @@ const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
 const methodOverride = require('method-override');
 const Campground = require('./models/campground');
+const Review = require('./models/review');
 
 mongoose.connect('mongodb://localhost:27017/yelp-camp', {
     useNewUrlParser: true,
@@ -39,6 +40,7 @@ const validateCampground = (req, res, next) => {
     }
 }
 
+// CAMPGROUND ROUTES
 app.get('/', (req, res) => {
     res.render('home');
 });
@@ -53,7 +55,6 @@ app.get('/campgrounds/new', (req, res) => {
 });
 
 app.post('/campgrounds', validateCampground, catchAsync(async (req, res, next) => {
-    // if (!req.body.campground) throw new ExpressError('Invalid Campground Data', 400);
     const newCampground = new Campground(req.body.campground);
     await newCampground.save();
     res.redirect(`campgrounds/${newCampground._id}`);
@@ -83,6 +84,17 @@ app.delete('/campgrounds/:id', catchAsync(async (req, res) => {
     res.redirect('/campgrounds');
 }));
 
+// REVIEW ROUTES
+app.post('/campgrounds/:id/reviews', catchAsync(async (req, res) => {
+    const review = new Review(req.body.review);
+    const campground = await Campground.findById(req.params.id);
+    campground.reviews.push(review);
+    await review.save();
+    await campground.save();
+    res.redirect(`/campgrounds/${campground._id}`);
+}));
+
+// ERROR ROUTES
 app.all('*', (req, res, next) => {
     next(new ExpressError('Page Not Found!', 404));
 });
