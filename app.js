@@ -109,7 +109,6 @@ app.delete('/campgrounds/:id/reviews/:reviewId', catchAsync(async (req, res) => 
     await Review.findByIdAndDelete(reviewId);
     await Campground.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
     res.redirect(`/campgrounds/${id}`);
-    // res.send('Delete me!!!');
 }));
 
 // ERROR ROUTES
