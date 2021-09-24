@@ -16,3 +16,6 @@ const marker1 = new mapboxgl.Marker()
             )
     )
     .addTo(map);
+
+// Add zoom and rotation controls to the map.
+map.addControl(new mapboxgl.NavigationControl());
