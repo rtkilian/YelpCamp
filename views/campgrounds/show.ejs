@@ -1,7 +1,7 @@
 <% layout('layouts/boilerplate') %>
     <link rel="stylesheet" href="/stylesheets/stars.css">
     <div class="row">
-        <div class="col-6">
+        <div class="col-md-6">
             <!-- Bootstrap carosel -->
             <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
@@ -59,7 +59,7 @@
                         </div>
             </div>
         </div>
-        <div class="col-6">
+        <div class="col-md-6">
 
             <!-- Mapbox map -->
             <div id='map'></div>
@@ -135,7 +135,7 @@
 
     <script>
         const mapToken = '<%- process.env.MAPBOX_TOKEN %>';
-        const campground = <% - JSON.stringify(campground) %>
+        const campground = <%- JSON.stringify(campground) %>
     </script>
 
     <script src="/javascripts/showPageMap.js"></script>
