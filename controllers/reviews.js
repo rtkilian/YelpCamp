@@ -20,16 +20,17 @@ module.exports.createReview = async (req, res) => {
         }
     }
     const resp = await sendReviewForSentiment(sentimentRequest);
+    review.sentiment = resp.data.score; // add sentiment to review object 
     console.log(resp.data.score);
 
     // Add to campground object
     const campground = await Campground.findById(req.params.id);
-    // campground.reviews.push(review);
+    campground.reviews.push(review);
 
     // Save
-    // await review.save();
-    // await campground.save();
-    // req.flash('success', 'Successfully created a new review');
+    await review.save();
+    await campground.save();
+    req.flash('success', 'Successfully created a new review');
     res.redirect(`/campgrounds/${campground._id}`);
 }
 
