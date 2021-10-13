@@ -10,7 +10,6 @@ module.exports.createReview = async (req, res) => {
 
     // Call sentiment API
     const sentimentRequest = { 'review': review.body };
-    console.log(sentimentRequest);
     const sendReviewForSentiment = async (sentimentRequest) => {
         try {
             const resp = axios.post('https://sentiment-analyser-yelpcamp.herokuapp.com/predict', sentimentRequest);
@@ -21,7 +20,6 @@ module.exports.createReview = async (req, res) => {
     }
     const resp = await sendReviewForSentiment(sentimentRequest);
     review.sentiment = resp.data.score; // add sentiment to review object 
-    console.log(resp.data.score);
 
     // Add to campground object
     const campground = await Campground.findById(req.params.id);
