@@ -1,14 +1,35 @@
 const Campground = require('../models/campground');
 const Review = require('../models/review');
+const axios = require('axios').default; // axios.<method> will now provide autocomplete and parameter typings
 
 module.exports.createReview = async (req, res) => {
+
+    // Retrieve the review and add the user ID
     const review = new Review(req.body.review);
     review.author = req.user._id; // store the user id from req which is provided by Passport
+
+    // Call sentiment API
+    const sentimentRequest = { 'review': review.body };
+    console.log(sentimentRequest);
+    const sendReviewForSentiment = async (sentimentRequest) => {
+        try {
+            const resp = axios.post('https://sentiment-analyser-yelpcamp.herokuapp.com/predict', sentimentRequest);
+            return resp
+        } catch (err) {
+            console.log(err);
+        }
+    }
+    const resp = await sendReviewForSentiment(sentimentRequest);
+    console.log(resp.data.score);
+
+    // Add to campground object
     const campground = await Campground.findById(req.params.id);
-    campground.reviews.push(review);
-    await review.save();
-    await campground.save();
-    req.flash('success', 'Successfully created a new review');
+    // campground.reviews.push(review);
+
+    // Save
+    // await review.save();
+    // await campground.save();
+    // req.flash('success', 'Successfully created a new review');
     res.redirect(`/campgrounds/${campground._id}`);
 }
 
