@@ -5,7 +5,7 @@
 
 ## My Vision
 The purpose of [YelpCamp](https://blooming-harbor-84389.herokuapp.com/) is to build a base for developing and deploying machine learning applications. I plan to create the following machine learning applications:
-* Sentiment classifier of campground reviews
+* [Sentiment classifier](https://github.com/rtkilian/sentiment-analyser-yelpcamp) of campground reviews
 * Text-generation for creating fake campgrounds
 * Image recognition of user uploaded images
 
